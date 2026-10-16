@@ -3,149 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undertale Web Arena</title>
+    <title>Deltarune Simulator (Unblocked)</title>
     <style>
-        body {
-            background-color: #000;
-            color: #fff;
-            font-family: 'Courier New', Courier, monospace;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+        /* Force the emulator to take up 100% of the browser window */
+        html, body {
             margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
             overflow: hidden;
+            background-color: #000000;
         }
-        #game-container {
-            text-align: center;
-        }
-        canvas {
-            border: 4px solid #fff;
-            background: #000;
-        }
-        .buttons {
-            margin-top: 15px;
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-        .ut-btn {
-            border: 2px solid #ff9d00;
-            color: #ff9d00;
-            background: transparent;
-            padding: 8px 24px;
-            font-size: 18px;
-            cursor: pointer;
-            text-transform: uppercase;
-        }
-        .ut-btn:hover {
-            color: #fff;
-            border-color: #fff;
-            background: #ff9d00;
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
         }
     </style>
 </head>
 <body>
 
-<div id="game-container">
-    <h2>DODGE THE ATTACK!</h2>
-    <canvas id="gameCanvas" width="600" height="400"></canvas>
-    <div class="buttons">
-        <button class="ut-btn">Fight</button>
-        <button class="ut-btn">Act</button>
-        <button class="ut-btn">Item</button>
-        <button class="ut-btn">Mercy</button>
-    </div>
-</div>
-
-<script>
-    const canvas = document.getElementById('gameCanvas');
-    const ctx = canvas.getContext('2d');
-
-    // Player (The Red Heart)
-    const player = {
-        x: 300,
-        y: 250,
-        size: 12,
-        speed: 4,
-        color: '#ff0000'
-    };
-
-    // Obstacles (White Bones / Bullets)
-    const projectiles = [];
-    const keys = {};
-
-    window.addEventListener('keydown', e => keys[e.key] = true);
-    window.addEventListener('keyup', e => keys[e.key] = false);
-
-    function spawnProjectile() {
-        if (Math.random() < 0.05) {
-            projectiles.push({
-                x: Math.random() * canvas.width,
-                y: 0,
-                width: 10,
-                height: 30,
-                speed: 3 + Math.random() * 3
-            });
-        }
-    }
-
-    function update() {
-        // Movement boundaries
-        if ((keys['ArrowUp'] || keys['w']) && player.y > 150) player.y -= player.speed;
-        if ((keys['ArrowDown'] || keys['s']) && player.y < 350) player.y += player.speed;
-        if ((keys['ArrowLeft'] || keys['a']) && player.x > 150) player.x -= player.speed;
-        if ((keys['ArrowRight'] || keys['d']) && player.x < 450) player.x += player.speed;
-
-        spawnProjectile();
-
-        // Move projectiles & check collision
-        for (let i = projectiles.length - 1; i >= 0; i--) {
-            projectiles[i].y += projectiles[i].speed;
-
-            // Simple box collision
-            if (player.x < projectiles[i].x + projectiles[i].width &&
-                player.x + player.size > projectiles[i].x &&
-                player.y < projectiles[i].y + projectiles[i].height &&
-                player.y + player.size > projectiles[i].y) {
-                player.color = '#ff9999'; // Hit effect
-                setTimeout(() => player.color = '#ff0000', 100);
-            }
-
-            if (projectiles[i].y > canvas.height) {
-                projectiles.splice(i, 1);
-            }
-        }
-    }
-
-    function draw() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw Battle Box
-        ctx.strokeStyle = '#ffffff';
-        ctx.lineWidth = 5;
-        ctx.strokeRect(140, 140, 320, 220);
-
-        // Draw Player Heart
-        ctx.fillStyle = player.color;
-        ctx.fillRect(player.x, player.y, player.size, player.size);
-
-        // Draw Projectiles
-        ctx.fillStyle = '#ffffff';
-        projectiles.forEach(p => {
-            ctx.fillRect(p.x, p.y, p.width, p.height);
-        });
-    }
-
-    function gameLoop() {
-        update();
-        draw();
-        requestAnimationFrame(gameLoop);
-    }
-
-    gameLoop();
-</script>
+    <!-- This pulls the full simulator directly into your unblocked GitHub page -->
+    <iframe src="https://deltarunesim.com" allow="fullscreen; gamepad"></iframe>
 
 </body>
 </html>
